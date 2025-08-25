@@ -1,0 +1,15 @@
+python>=3.9
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+jupyter
+nltk
+spacy
+gensim
+transformers
+torch
+torchvision
+torchaudio
+tensorflow
