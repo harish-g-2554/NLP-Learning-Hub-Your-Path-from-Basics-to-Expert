@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Module 7 — Dense Vector (Embedding)</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<head>
+  <!-- ... your other head elements ... -->
+  <style>
+    .page-nav {
+      padding: 12px 24px;
+      background: rgba(17, 18, 28, 0.4);
+      border-bottom: 1px solid #273041;
+      margin-bottom: 24px;
+    }
+    .page-nav a {
+      color: #cbd5ff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .page-nav a:hover {
+      text-decoration: underline;
+    }
+    /* ... rest of your styles ... */
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <header class="page-nav">
+      <a href="{{ url_for('journey') }}">&larr; Back to All Modules</a>
+    </header>
+  <style>
+    .lesson-wrap{max-width:1200px;margin:0 auto;padding:8px 16px 96px}
+    .modules-hero{max-width:960px;margin:0 auto 18px;text-align:center}
+    .modules-title{font-size:clamp(1.8rem,4.8vw,3rem);margin:8px 0 6px}
+    .modules-hero p{color:#9fb0d8}
+
+    .term{margin:18px 0;padding:22px;border-radius:16px;background:linear-gradient(180deg,rgba(17,18,28,.75),rgba(17,18,28,.45));border:1px solid #273041;box-shadow:0 10px 30px #0003,0 0 0 1px #1f2333 inset}
+    .term h2, .term h3 {margin:0 0 8px;color:#e6e8ff}
+    .t-desc{color:#9aa6d1; line-height: 1.6;}
+    .twocol{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:10px}
+    @media (max-width:900px){.twocol{grid-template-columns:1fr}}
+
+    .diagram{padding:12px;border:1px solid #2b3449;border-radius:12px;background:rgba(12,14,22,.45);margin:10px 0}
+    .d-caption{font-size:.82rem;color:#91a0c7;margin-bottom:6px;font-weight:700}
+    .txt{width:100%;border-radius:12px;border:1px solid #2b3449;background:#0f1220;color:#e8ebff;padding:10px}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    .infobox{background:linear-gradient(180deg,rgba(6,182,212,.08),rgba(124,58,237,.08));border:1px solid #334155;border-radius:12px;padding:10px 12px;color:#bdd3f4}
+    
+    .table{width:100%;border-collapse:separate;border-spacing:0 6px}
+    .table th,.table td{padding:10px 12px;vertical-align:top; text-align: left;}
+    .table thead th{color:#cbd5ff;text-align:left;border-bottom:1px solid #2b3449}
+    .table tbody tr{background:rgba(12,14,22,.55);border:1px solid #2b3449}
+    
+    .qa{ margin:8px 0; background:rgba(17,18,28,.6); border:1px solid #273041; border-radius:10px; padding:10px 12px; }
+    .qa summary{ cursor:pointer; color:#d7dcff; font-weight:700; }
+    .qa .answer{ margin-top:8px; color:#b8c0e0; } 
+    .qnum{ color:#a78bfa; margin-right:6px; }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <header class="modules-hero">
+      <h1 class="modules-title">Module 7: <span>Dense Vector (Embedding)</span></h1>
+      <p class="modules-sub">Master modern dense embeddings including Word2Vec, GloVe, and transformer-based representations.</p>
+    </header>
+
+    <main class="lesson-wrap">
+
+      <section class="term" id="intro">
+        <h2>From Sparse to Dense: A New Way to Represent Meaning</h2>
+        <p class="t-desc">
+          While sparse vectors like TF-IDF are useful, they have a major limitation: they treat words as completely independent things. They don't know that "cat" and "kitten" are related, or that "king" - "man" + "woman" should equal "queen". <strong>Dense vectors</strong>, also known as <strong>embeddings</strong>, solve this problem.
+        </p>
+        <p class="t-desc">
+          A dense vector represents each word as a list of (usually) 50-300 numbers. Unlike sparse vectors, these numbers are not just counts. They are learned from data, and they capture the semantic relationships and meanings of words. Words with similar meanings will have similar vectors.
+        </p>
+        <div class="infobox">
+          <strong>Analogy:</strong> Think of it like describing a color. A sparse vector might be a list of all possible color names with a "1" next to "red". A dense vector would be the RGB code `[255, 0, 0]`. This code tells you how much red, green, and blue are in the color, capturing its relationship to other colors. Word embeddings do the same for word meanings.
+        </div>
+      </section>
+
+      <section class="term" id="word2vec">
+        <h2>Word2Vec: Learning Embeddings from Context</h2>
+        <p class="t-desc">
+          <strong>Word2Vec</strong> is a groundbreaking model that learns dense word embeddings. It works on a simple but powerful idea: <strong>a word is defined by the company it keeps</strong>. It slides a "window" across a huge amount of text and learns to predict a word based on its neighbors, or vice-versa.
+        </p>
+        <div class="twocol">
+            <div>
+                <h3>Continuous Bag-of-Words (CBOW)</h3>
+                <p class="t-desc">The CBOW model learns to predict the current word based on its surrounding context words. It's like filling in the blank: given "the cat sat on the ___", it tries to predict "mat". It's generally faster and good for frequent words.</p>
+            </div>
+            <div>
+                <h3>Skip-gram</h3>
+                <p class="t-desc">The Skip-gram model does the opposite: it tries to predict the surrounding context words based on the current word. Given "cat", it tries to predict "the", "sat", "on", "the". It works well with small amounts of data and is good at representing rare words.</p>
+            </div>
+        </div>
+      </section>
+
+      <section class="term" id="glove-bert">
+        <h2>GloVe and The Rise of Transformers (BERT)</h2>
+        <div class="twocol">
+            <div>
+                <h3>GloVe: Global Vectors for Word Representation</h3>
+                <p class="t-desc"><strong>GloVe</strong> is another popular embedding technique. While Word2Vec focuses on local context windows, GloVe considers the entire corpus at once. It constructs a giant matrix of word co-occurrence counts and then factorizes it to learn word vectors. This allows it to capture broader statistical patterns.</p>
+            </div>
+            <div>
+                <h3>BERT: Context is Everything</h3>
+                <p class="t-desc"><strong>BERT (Bidirectional Encoder Representations from Transformers)</strong> represents a major leap forward. Unlike Word2Vec and GloVe, which produce a single, static vector for each word, BERT generates dynamic, context-aware embeddings. The vector for the word "bank" will be different in "river bank" vs. "money bank". This is achieved using the powerful Transformer architecture, which allows the model to look at the entire sentence at once.</p>
+            </div>
+        </div>
+      </section>
+
+      <section class="term" id="lab-dense-vector">
+        <h2>Interactive Word2Vec Lab</h2>
+        <p class="t-desc">Train a Word2Vec model on your own text (or upload a .txt file) and find the words most similar to a target word.</p>
+        <div class="diagram">
+            <div class="d-caption">Word2Vec Trainer</div>
+            <div class="twocol">
+                <div>
+                    <label for="corpus" class="lbl">1. Enter Corpus Text</label>
+                    <textarea id="corpus" class="txt" rows="6">king queen prince princess man woman boy girl.
+royal family tree.
+the king is a man.
+the queen is a woman.</textarea>
+                </div>
+                <div>
+                    <label for="fileInput" class="lbl">Or Upload a .txt File</label>
+                    <input type="file" id="fileInput" accept=".txt" class="txt">
+                    <label for="targetWord" class="lbl" style="margin-top:1rem;">2. Target Word</label>
+                    <input type="text" id="targetWord" class="txt mono" value="king">
+                    <label for="modelType" class="lbl" style="margin-top:1rem;">3. Model Type</label>
+                    <select id="modelType" class="txt">
+                        <option value="cbow">CBOW</option>
+                        <option value="skipgram">Skip-gram</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-top:10px">
+                <button class="btn primary" id="btnTrain" type="button">Train and Find Similar Words</button>
+            </div>
+        </div>
+        <div id="results" style="display:none;" class="diagram">
+            <h3>Most Similar Words</h3>
+            <div id="similar-words-table"></div>
+        </div>
+      </section>
+      
+      <section class="term">
+        <h2>Quick Quiz</h2>
+        <details class="qa"><summary><span class="qnum">1.</span> What is the main advantage of dense vectors over sparse vectors?</summary><div class="answer">Dense vectors capture the semantic meaning and relationships between words, whereas sparse vectors treat words as independent features.</div></details>
+        <details class="qa"><summary><span class="qnum">2.</span> What is the core idea behind Word2Vec?</summary><div class="answer">That a word's meaning can be inferred from the words that frequently appear around it (its context).</div></details>
+        <details class="qa"><summary><span class="qnum">3.</span> What is the difference between the CBOW and Skip-gram models in Word2Vec?</summary><div class="answer">CBOW predicts a word from its context, while Skip-gram predicts the context from a word.</div></details>
+        <details class="qa"><summary><span class="qnum">4.</span> What famous vector arithmetic analogy demonstrates the power of word embeddings?</summary><div class="answer">vector('king') - vector('man') + vector('woman') ≈ vector('queen')</div></details>
+        <details class="qa"><summary><span class="qnum">5.</span> How does GloVe differ from Word2Vec in its training approach?</summary><div class="answer">Word2Vec uses local context windows, while GloVe is trained on global word-word co-occurrence statistics from the entire corpus.</div></details>
+        <details class="qa"><summary><span class="qnum">6.</span> What is the key innovation of BERT compared to older models like Word2Vec?</summary><div class="answer">BERT generates context-aware embeddings. The vector for a word changes depending on the sentence it's in.</div></details>
+        <details class="qa"><summary><span class="qnum">7.</span> What does "bidirectional" in BERT's name refer to?</summary><div class="answer">It means that when processing a word, the model considers both the text that comes before it and the text that comes after it.</div></details>
+        <details class="qa"><summary><span class="qnum">8.</span> What is a "Transformer" in the context of NLP?</summary><div class="answer">It's a modern neural network architecture that is particularly good at handling sequential data like text, forming the basis of models like BERT and GPT.</div></details>
+        <details class="qa"><summary><span class="qnum">9.</span> Why is a larger corpus generally better for training word embeddings?</summary><div class="answer">A larger corpus provides more examples of words in different contexts, allowing the model to learn more robust and accurate representations of their meanings.</div></details>
+        <details class="qa"><summary><span class="qnum">10.</span> If you trained a model on a medical corpus, would the vector for "cell" be closer to "biology" or "phone"?</summary><div class="answer">It would be much closer to "biology", as the model would have learned its meaning from the medical context.</div></details>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    async function postJSON(url, payload) {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+        throw new Error(errData.error);
+      }
+      return res.json();
+    }
+
+    document.getElementById('fileInput').addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('corpus').value = e.target.result;
+            };
+            reader.readAsText(file);
+        }
+    });
+
+    document.getElementById('btnTrain').addEventListener('click', async () => {
+        const corpus = document.getElementById('corpus').value;
+        const targetWord = document.getElementById('targetWord').value;
+        const modelType = document.getElementById('modelType').value;
+
+        if (!corpus || !targetWord) {
+            alert('Please provide a corpus and a target word.');
+            return;
+        }
+        try {
+            const data = await postJSON('/api/dense-vectors/lab', { corpus, target_word: targetWord, model_type: modelType });
+            
+            let tableHtml = '<table class="table"><thead><tr><th>Word</th><th>Similarity Score</th></tr></thead><tbody>';
+            data.similar_words.forEach(item => {
+                tableHtml += `<tr><td>${item[0]}</td><td>${item[1].toFixed(4)}</td></tr>`;
+            });
+            tableHtml += '</tbody></table>';
+            document.getElementById('similar-words-table').innerHTML = tableHtml;
+
+            document.getElementById('results').style.display = 'block';
+        } catch (e) {
+            alert(`Error: ${e.message}`);
+        }
+    });
+  </script>
+</body>
+</html>

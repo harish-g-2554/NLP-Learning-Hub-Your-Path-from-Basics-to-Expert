@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modules Overview — NLP Pathways</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    .mcard-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <header class="modules-hero">
+      <h1 class="modules-title">Explore <span>All Modules</span></h1>
+      <p class="modules-sub">
+        A detailed roadmap of what you’ll learn across 9 modules — from fundamentals to advanced NLP applications.
+      </p>
+    </header>
+
+    <main class="modules-wrap">
+      <div class="modules-grid">
+        <!-- 1) NLP (Intro) -->
+        <a href="{{ url_for('module_nlp') }}" class="mcard-link">
+          <article class="mcard">
+            <div class="mcard-top"><span class="mnum">1</span><span class="mbadge beginner">Beginner</span><span class="mdur">~1 week</span></div>
+            <h3 class="mtitle">NLP</h3>
+            <p class="mdesc">A gentle introduction to Natural Language Processing and key terminology you’ll use throughout the course.</p>
+            <div class="mblock">
+              <div class="mkey">You’ll Learn</div>
+              <ul class="mlist">
+                <li>What NLP is, common tasks, and real‑world applications.</li>
+                <li>Core terms: token, corpus, stopwords, lemma, stemming, vocabulary.</li>
+                <li>Overview of classic vs. neural approaches in NLP.</li>
+              </ul>
+            </div>
+            <div class="mblock">
+              <div class="mkey">Outcomes</div>
+              <ul class="mlist">
+                <li>Comfort with core NLP vocabulary and task categories.</li>
+                <li>A mental map of the 9‑module journey.</li>
+              </ul>
+            </div>
+          </article>
+        </a>
+
+        <!-- 2) Text Processing & Regex -->
+        <a href="{{ url_for('module_text_regex') }}" class="mcard-link">
+          <article class="mcard">
+            <div class="mcard-top"><span class="mnum">2</span><span class="mbadge beginner">Beginner</span><span class="mdur">2–3 weeks</span></div>
+            <h3 class="mtitle">Text Processing and Regular Expression</h3>
+            <p class="mdesc">Clean, normalize, and structure raw text for downstream modeling using robust preprocessing pipelines.</p>
+            <div class="mblock">
+              <div class="mkey">You’ll Learn</div>
+              <ul class="mlist">
+                <li>Normalization: casing, punctuation, Unicode, numbers, contractions, emoji.</li>
+                <li>Tokenization basics; sentence vs. word tokenization.</li>
+                <li>Stopword handling, lemmatization, stemming (when/why).</li>
+                <li>Regex essentials: classes, groups, quantifiers, lookarounds.</li>
+                <li>Building reproducible preprocessing functions.</li>
+              </ul>
+            </div>
+            <div class="mblock">
+              <div class="mkey">Outcomes</div>
+              <ul class="mlist">
+                <li>Production‑ready cleaning scripts and regex patterns.</li>
+                <li>Properly prepared text datasets for modeling.</li>
+              </ul>
+            </div>
+          </article>
+        </a>
+
+        <!-- 3) Edit Distance -->
+        <a href="{{ url_for('module_edit_distance') }}" class="mcard-link">
+          <article class="mcard">
+            <div class="mcard-top"><span class="mnum">3</span><span class="mbadge beginner">Beginner</span><span class="mdur">1–2 weeks</span></div>
+            <h3 class="mtitle">Edit Distance and Applications</h3>
+            <p class="mdesc">Measure string similarity for tasks like spell checking, fuzzy matching, and approximate search.</p>
+            <div class="mblock">
+              <div class="mkey">You’ll Learn</div>
+              <ul class="mlist">
+                <li>Levenshtein, Damerau–Levenshtein, Jaro–Winkler; character n‑gram cosine.</li>
+                <li>Dynamic programming intuition; pruning & thresholds.</li>
+                <li>Spell‑checking, deduplication, entity resolution workflows.</li>
+              </ul>
+            </div>
+            <div class="mblock">
+              <div class="mkey">Outcomes</div>
+              <ul class="mlist">
+                <li>Implement string‑matching utilities for noisy, real data.</li>
+              </ul>
+            </div>
+          </article>
+        </a>
+
+        <!-- 4) N‑gram, POS, NER -->
+        <a href="{{ url_for('module_ngram_pos_ner') }}" class="mcard-link">
+          <article class="mcard">
+            <div class="mcard-top"><span class="mnum">4</span><span class="mbadge intermediate">Intermediate</span><span class="mdur">3–4 weeks</span></div>
+            <h3 class="mtitle">N‑gram, POS, NER</h3>
+            <p class="mdesc">Learn classic linguistic features and sequence labeling techniques before neural models.</p>
+            <div class="mblock">
+              <div class="mkey">You’ll Learn</div>
+              <ul class="mlist">
+                <li>N‑gram language models; smoothing and perplexity.</li>
+                <li>POS tagging (HMM/CRF intuition), chunking basics.</li>
+                <li>Named Entity Recognition datasets, features, and evaluation.</li>
+                <li>Error analysis and domain shift considerations.</li>
+              </ul>
+            </div>
+            <div class="mblock">
+              <div class="mkey">Outcomes</div>
+              <ul class="mlist">
+                <li>Build & evaluate simple statistical taggers and NER pipelines.</li>
+              </ul>
+            </div>
+          </article>
+        </a>
+
+        <!-- 5) WSD -->
+        <a href="{{ url_for('module_wsd') }}" class="mcard-link">
+          <article class="mcard">
+            <div class="mcard-top"><span class="mnum">5</span><span class="mbadge intermediate">Intermediate</span><span class="mdur">2–3 weeks</span></div>
+            <h3 class="mtitle">Word Sense Disambiguation (WSD)</h3>
+            <p class="mdesc">Resolve meaning ambiguity using context, lexical resources, and supervised methods.</p>
+            <div class="mblock">
+              <div class="mkey">You’ll Learn</div>
+              <ul class="mlist">
+                <li>Dictionary‑based (Lesk), knowledge‑based (WordNet) approaches.</li>
+                <li>Supervised/semisupervised WSD; dataset considerations; evaluation.</li>
+                <li>Applications to search, QA, and dialog systems.</li>
+              </ul>
+            </div>
+            <div class="mblock">
+              <div class="mkey">Outcomes</div>
+              <ul class="mlist">
+                <li>Choose and implement a WSD strategy for your domain.</li>
+              </ul>
+            </div>
+          </article>
+        </a>
+
+        <!-- 6) Sparse Embeddings -->
+        <a href="{{ url_for('module_sparse_vector') }}" class="mcard-link">
+          <article class="mcard">
+            <div class="mcard-top"><span class="mnum">6</span><span class="mbadge intermediate">Intermediate</span><span class="mdur">2–3 weeks</span></div>
+            <h3 class="mtitle">Sparse Vector (Embedding)</h3>
+            <p class="mdesc">Represent text with classic sparse features and learn how to engineer them effectively.</p>
+            <div class="mblock">
+              <div class="mkey">You’ll Learn</div>
+              <ul class="mlist">
+                <li>Bag‑of‑Words, n‑grams, TF‑IDF; pros/cons vs dense models.</li>
+                <li>Feature selection, weighting, scaling, and normalization.</li>
+                <li>Similarity metrics and retrieval with sparse vectors.</li>
+              </ul>
+            </div>
+            <div class="mblock">
+              <div class="mkey">Outcomes</div>
+              <ul class="mlist">
+                <li>Deliver strong baselines for classification/retrieval tasks.</li>
+              </ul>
+            </div>
+          </article>
+        </a>
+
+        <!-- 7) Dense Embeddings -->
+        <a href="{{ url_for('module_dense_vector') }}" class="mcard-link">
+          <article class="mcard">
+            <div class="mcard-top"><span class="mnum">7</span><span class="mbadge advanced">Advanced</span><span class="mdur">3–4 weeks</span></div>
+            <h3 class="mtitle">Dense Vector (Embedding)</h3>
+            <p class="mdesc">Move from sparse features to neural embeddings and contextual representations.</p>
+            <div class="mblock">
+              <div class="mkey">You’ll Learn</div>
+              <ul class="mlist">
+                <li>Word2Vec, GloVe; training objectives and intuition.</li>
+                <li>Contextual encoders (ELMo/BERT family); token vs sentence level.</li>
+                <li>Vector operations, similarity search, and evaluation.</li>
+              </ul>
+            </div>
+            <div class="mblock">
+              <div class="mkey">Outcomes</div>
+              <ul class="mlist">
+                <li>Use modern embeddings for downstream tasks & retrieval.</li>
+              </ul>
+            </div>
+          </article>
+        </a>
+
+        <!-- 8) Apps with Sparse -->
+        <a href="{{ url_for('module_sparse_app') }}" class="mcard-link">
+          <article class="mcard">
+            <div class="mcard-top"><span class="mnum">8</span><span class="mbadge advanced">Advanced</span><span class="mdur">2–3 weeks</span></div>
+            <h3 class="mtitle">Application Using Sparse Vector</h3>
+            <p class="mdesc">Build production‑ready systems powered by sparse features.</p>
+            <div class="mblock">
+              <div class="mkey">You’ll Learn</div>
+              <ul class="mlist">
+                <li>Text classification pipelines and error analysis.</li>
+                <li>BM25 and lexical search; inverted indexes; query expansion.</li>
+                <li>Evaluation: precision/recall@k, ROC/PR, offline vs. online.</li>
+              </ul>
+            </div>
+            <div class="mblock">
+              <div class="mkey">Outcomes</div>
+              <ul class="mlist">
+                <li>Ship robust sparse‑based applications (search, tagging).</li>
+              </ul>
+            </div>
+          </article>
+        </a>
+
+        <!-- 9) Apps with Dense -->
+        <a href="{{ url_for('module_dense_app') }}" class="mcard-link">
+          <article class="mcard">
+            <div class="mcard-top"><span class="mnum">9</span><span class="mbadge advanced">Advanced</span><span class="mdur">3–4 weeks</span></div>
+            <h3 class="mtitle">Application Using Dense Vector</h3>
+            <p class="mdesc">Leverage dense retrieval and semantic representations for high‑accuracy systems.</p>
+            <div class="mblock">
+              <div class="mkey">You’ll Learn</div>
+              <ul class="mlist">
+                <li>Semantic search and RAG basics; vector databases.</li>
+                <li>Zero‑shot transfer and cross‑encoders vs. bi‑encoders.</li>
+                <li>Latency/throughput tradeoffs, caching, and evaluation.</li>
+              </ul>
+            </div>
+            <div class="mblock">
+              <div class="mkey">Outcomes</div>
+              <ul class="mlist">
+                <li>Design & evaluate dense‑based applications end‑to‑end.</li>
+              </ul>
+            </div>
+          </article>
+        </a>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>
