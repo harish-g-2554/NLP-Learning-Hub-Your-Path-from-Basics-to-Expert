@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Module 5 — Word Sense Disambiguation</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<head>
+  <!-- ... your other head elements ... -->
+  <style>
+    .page-nav {
+      padding: 12px 24px;
+      background: rgba(17, 18, 28, 0.4);
+      border-bottom: 1px solid #273041;
+      margin-bottom: 24px;
+    }
+    .page-nav a {
+      color: #cbd5ff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .page-nav a:hover {
+      text-decoration: underline;
+    }
+    /* ... rest of your styles ... */
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <header class="page-nav">
+      <a href="{{ url_for('modules') }}">&larr; Back to All Modules</a>
+    </header>
+  <style>
+    .lesson-wrap{max-width:1200px;margin:0 auto;padding:8px 16px 96px}
+    .modules-hero{max-width:960px;margin:0 auto 18px;text-align:center}
+    .modules-title{font-size:clamp(1.8rem,4.8vw,3rem);margin:8px 0 6px}
+    .modules-hero p{color:#9fb0d8}
+
+    .term{margin:18px 0;padding:22px;border-radius:16px;background:linear-gradient(180deg,rgba(17,18,28,.75),rgba(17,18,28,.45));border:1px solid #273041;box-shadow:0 10px 30px #0003,0 0 0 1px #1f2333 inset}
+    .term h2, .term h3 {margin:0 0 8px;color:#e6e8ff}
+    .t-desc{color:#9aa6d1; line-height: 1.6;}
+    .twocol{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:10px}
+    @media (max-width:900px){.twocol{grid-template-columns:1fr}}
+
+    .diagram{padding:12px;border:1px solid #2b3449;border-radius:12px;background:rgba(12,14,22,.45);margin:10px 0}
+    .d-caption{font-size:.82rem;color:#91a0c7;margin-bottom:6px;font-weight:700}
+    .txt{width:100%;border-radius:12px;border:1px solid #2b3449;background:#0f1220;color:#e8ebff;padding:10px}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    .infobox{background:linear-gradient(180deg,rgba(6,182,212,.08),rgba(124,58,237,.08));border:1px solid #334155;border-radius:12px;padding:10px 12px;color:#bdd3f4}
+    
+    .wsd-result details { border-bottom: 1px solid #2b3449; padding: 10px 0; }
+    .wsd-result summary { cursor: pointer; font-weight: 700; }
+    .wsd-result .all-senses { margin-top: 10px; padding-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <header class="modules-hero">
+      <h1 class="modules-title">Module 5: <span>Word Sense Disambiguation</span></h1>
+      <p class="modules-sub">Resolving ambiguity in language by understanding the context in which words are used.</p>
+    </header>
+
+    <main class="lesson-wrap">
+
+      <section class="term" id="intro">
+        <h2>What is Word Sense Disambiguation (WSD)?</h2>
+        <p class="t-desc">
+          <strong>Word Sense Disambiguation (WSD)</strong> is the task of identifying which "sense" (or meaning) of a word is used in a given sentence when the word has multiple meanings. It's one of the most fundamental challenges in NLP because language is full of ambiguity.
+        </p>
+        <div class="infobox">
+          <strong>Analogy:</strong> Think of the word "bank". It could mean a financial institution ("I need to go to the bank") or the land alongside a river ("We sat on the river bank"). WSD is the process a computer uses to figure out which meaning is intended by looking at the other words in the sentence (the **context**).
+        </div>
+        <h3>Why & Where Is It Used?</h3>
+        <p class="t-desc">WSD is a critical component for improving the performance of many NLP applications:
+        <br>• <strong>Machine Translation:</strong> To correctly translate a word like the Spanish "gato", which can mean "cat" or a "car jack".
+        <br>• <strong>Search Engines:</strong> To return more relevant results. A search for "Java" should know if you mean the programming language or the island.
+        <br>• <strong>Chatbots & Virtual Assistants:</strong> To understand user requests accurately. "Book a flight" vs. "Read a book".
+        </p>
+      </section>
+
+      <section class="term" id="ambiguity">
+        <h2>The Core Problem: Types of Ambiguity</h2>
+        <p class="t-desc">Ambiguity means a word, phrase, or sentence can have more than one meaning. Here are the main types you'll encounter:</p>
+        
+        <div class="diagram">
+            <h3>1. Lexical Ambiguity</h3>
+            <p class="t-desc">Occurs when a single word has multiple meanings. This is the most common type of ambiguity WSD tackles.</p>
+            <p class="t-desc"><strong>Example:</strong> The word <strong>"bank"</strong> can mean a financial institution ("I deposited money in the bank") or the edge of a river ("We had a picnic on the bank").</p>
+        </div>
+    
+        <div class="diagram">
+            <h3>2. Syntactic Ambiguity</h3>
+            <p class="t-desc">Happens when a sentence can be parsed in more than one way due to its grammatical structure.</p>
+            <p class="t-desc"><strong>Example:</strong> "I saw the man with the telescope."<br><em>Interpretation A:</em> I used a telescope to see the man.<br><em>Interpretation B:</em> I saw a man who was holding a telescope.</p>
+        </div>
+    
+        <div class="diagram">
+            <h3>3. Semantic Ambiguity</h3>
+            <p class="t-desc">Occurs when a sentence has multiple interpretations because the meaning of its components can be combined in different ways, even if the grammar is clear.</p>
+            <p class="t-desc"><strong>Example:</strong> "Visiting relatives can be boring."<br><em>Interpretation A:</em> The act of you visiting your relatives is boring.<br><em>Interpretation B:</em> Relatives who are visiting you can be boring.</p>
+        </div>
+    
+        <div class="diagram">
+            <h3>4. Pragmatic Ambiguity</h3>
+            <p class="t-desc">Relates to the context or the speaker’s intent. The literal meaning is clear, but the implied meaning is ambiguous.</p>
+            <p class="t-desc"><strong>Example:</strong> "Can you pass the salt?"<br><em>Literal Meaning:</em> Are you physically able to pass the salt?<br><em>Implied Meaning:</em> Please pass the salt to me.</p>
+        </div>
+    
+        <div class="diagram">
+            <h3>5. Referential Ambiguity</h3>
+            <p class="t-desc">Occurs when it’s unclear what a pronoun or noun phrase refers back to.</p>
+            <p class="t-desc"><strong>Example:</strong> "John told Peter he was late."<br><em>Who was late?</em> It could be John or it could be Peter. The pronoun "he" is ambiguous.</p>
+        </div>
+      </section>
+
+      <section class="term" id="lab-wsd">
+        <h2>Interactive WSD Lab</h2>
+        <p class="t-desc">Enter a sentence below. The tool will identify ambiguous words and list all of their possible meanings (senses) from WordNet.</p>
+        <div class="diagram">
+            <div class="d-caption">WSD Analyzer</div>
+            <label for="wsdSentence" class="lbl">Enter a sentence</label>
+            <textarea id="wsdSentence" class="txt" rows="3">He went to the bank to deposit his paycheck.</textarea>
+            <div style="margin-top:10px">
+                <button class="btn primary" id="btnWsd" type="button">Disambiguate</button>
+            </div>
+        </div>
+        <div id="wsd-results" style="display:none;" class="diagram">
+            <h3>Disambiguation Results</h3>
+            <div id="wsdResultContainer" class="wsd-result"></div>
+        </div>
+      </section>
+      
+      <section class="term">
+        <h2>Quick Quiz</h2>
+        <details class="qa"><summary><span class="qnum">1.</span> What is the primary goal of WSD?</summary><div class="answer">To identify the correct meaning (sense) of an ambiguous word based on its context.</div></details>
+        <details class="qa"><summary><span class="qnum">2.</span> What is the difference between lexical and syntactic ambiguity?</summary><div class="answer">Lexical ambiguity relates to a single word having multiple meanings, while syntactic ambiguity relates to a whole sentence having multiple interpretations due to its structure.</div></details>
+        <details class="qa"><summary><span class="qnum">3.</span> What is a "synset" in the context of WordNet?</summary><div class="answer">A set of synonyms that represent a single, distinct concept or meaning.</div></details>
+        <details class="qa"><summary><span class="qnum">4.</span> How does the Lesk algorithm work at a high level?</summary><div class="answer">It compares the context of an ambiguous word with the dictionary definitions of its possible senses and chooses the sense with the most overlapping words.</div></details>
+        <details class="qa"><summary><span class="qnum">5.</span> Why is WSD important for machine translation?</summary><div class="answer">To ensure that the correct translation of an ambiguous word is chosen. For example, translating the English word "pen" to Spanish requires knowing if it's a writing instrument ("pluma") or an enclosure ("corral").</div></details>
+        <details class="qa"><summary><span class="qnum">6.</span> "The fisherman waited by the bank." Which sense of "bank" is most likely?</summary><div class="answer">The river bank, because "fisherman" provides strong context.</div></details>
+        <details class="qa"><summary><span class="qnum">7.</span> What is polysemy?</summary><div class="answer">A type of lexical ambiguity where a word has multiple, but related, meanings (e.g., "branch" of a tree vs. "branch" of a company).</div></details>
+        <details class="qa"><summary><span class="qnum">8.</span> What is a semantic network?</summary><div class="answer">A knowledge base that represents concepts and the relationships between them, like WordNet.</div></details>
+        <details class="qa"><summary><span class="qnum">9.</span> Why is context analysis crucial for WSD?</summary><div class="answer">The surrounding words (context) provide the clues needed to determine which meaning of an ambiguous word is intended.</div></details>
+        <details class="qa"><summary><span class="qnum">10.</span> Give an example of syntactic ambiguity.</summary><div class="answer">"The chicken is ready to eat." (Is the chicken going to eat, or is it ready to be eaten?)</div></details>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    async function postJSON(url, payload) {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+        throw new Error(errData.error);
+      }
+      return res.json();
+    }
+
+    // ---- WSD Lab ----
+    document.getElementById('btnWsd').addEventListener('click', async () => {
+        const sentence = document.getElementById('wsdSentence').value;
+        if (!sentence) {
+            alert('Please enter a sentence.');
+            return;
+        }
+        try {
+            const data = await postJSON('/api/wsd/disambiguate', { sentence });
+            const container = document.getElementById('wsdResultContainer');
+            container.innerHTML = '';
+            
+            data.results.forEach(item => {
+                const details = document.createElement('details');
+                const summary = document.createElement('summary');
+                summary.innerText = `${item.word} (${item.pos}) - ${item.senses_count} senses found`;
+                
+                const allSensesDiv = document.createElement('div');
+                allSensesDiv.className = 'all-senses';
+                allSensesDiv.innerHTML = '<h4>All Possible Senses:</h4>' + item.all_senses.map(s => `<p><strong>${s.name}:</strong> ${s.definition}</p>`).join('');
+
+                details.appendChild(summary);
+                details.appendChild(allSensesDiv);
+                container.appendChild(details);
+            });
+
+            document.getElementById('wsd-results').style.display = 'block';
+        } catch (e) {
+            alert(`Error: ${e.message}`);
+        }
+    });
+  </script>
+</body>
+</html>

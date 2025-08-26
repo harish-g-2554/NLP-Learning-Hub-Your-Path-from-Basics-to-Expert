@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NLP (Intro) — Start Learning</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<head>
+  <!-- ... your other head elements ... -->
+  <style>
+    .page-nav {
+      padding: 12px 24px;
+      background: rgba(17, 18, 28, 0.4);
+      border-bottom: 1px solid #273041;
+      margin-bottom: 24px;
+    }
+    .page-nav a {
+      color: #cbd5ff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .page-nav a:hover {
+      text-decoration: underline;
+    }
+    /* ... rest of your styles ... */
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <header class="page-nav">
+      <a href="{{ url_for('modules') }}">&larr; Back to All Modules</a>
+    </header>
+<style>
+    /* Page-specific refinements */
+    .lesson-wrap{max-width:1100px;margin:0 auto;padding:8px 16px 96px}
+    .modules-hero{max-width:960px;margin:0 auto 18px;text-align:center}
+    .modules-title{font-size:clamp(1.8rem,4.8vw,3rem);margin:8px 0 6px}
+    .modules-hero p{color:#9fb0d8}
+
+    .term{margin:18px 0;padding:22px;border-radius:16px;background:linear-gradient(180deg,rgba(17,18,28,.75),rgba(17,18,28,.45));border:1px solid #273041;box-shadow:0 10px 30px #0003,0 0 0 1px #1f2333 inset}
+    .term h2{margin:0 0 8px;color:#e6e8ff}
+    .t-desc{color:#9aa6d1}
+    .twocol{display:grid;grid-template-columns:1.2fr 1fr;gap:18px;margin-top:10px}
+    @media (max-width:900px){.twocol{grid-template-columns:1fr}}
+
+    .diagram{padding:12px;border:1px solid #2b3449;border-radius:12px;background:rgba(12,14,22,.45);margin:10px 0}
+    .d-caption{font-size:.82rem;color:#91a0c7;margin-bottom:6px;font-weight:700}
+
+    .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:10px 0;color:#b9c3e8}
+    .txt{width:100%;border-radius:12px;border:1px solid #2b3449;background:#0f1220;color:#e8ebff;padding:10px}
+
+    .pill-row{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.25);color:#e5e8ff;padding:6px 10px;border-radius:10px}
+    .pill.muted{opacity:.55}
+    .hint{opacity:.65;font-weight:700;margin-left:6px}
+
+    .table{width:100%;border-collapse:separate;border-spacing:0 6px}
+    .table th,.table td{padding:10px 12px}
+    .table thead th{color:#cbd5ff;text-align:left;border-bottom:1px solid #2b3449}
+    .table tbody tr{background:rgba(12,14,22,.55);border:1px solid #2b3449}
+    .table tbody tr td:first-child{border-radius:8px 0 0 8px}
+    .table tbody tr td:last-child{border-radius:0 8px 8px 0}
+
+    .infobox{background:linear-gradient(180deg,rgba(6,182,212,.08),rgba(124,58,237,.08));border:1px solid #334155;border-radius:12px;padding:10px 12px;color:#bdd3f4}
+
+    .quiz{margin-top:24px}
+    .qa{margin:8px 0;background:rgba(17,18,28,.6);border:1px solid #273041;border-radius:10px;padding:10px 12px}
+    .qa summary{cursor:pointer;color:#d7dcff;font-weight:700}
+    .qnum{color:#a78bfa;margin-right:6px}
+
+    .btn.primary{padding:10px 16px;border-radius:10px}
+    canvas.chart{width:100%;max-width:100%;background:linear-gradient(180deg,rgba(17,18,28,.6),rgba(17,18,28,.35));border:1px solid #273041;border-radius:12px}
+
+    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    @media (max-width:900px){.grid-3{grid-template-columns:1fr}}
+    .badge-mini{display:inline-block;font-size:.8rem;padding:4px 8px;border:1px solid #334155;border-radius:999px;background:#101426;color:#bcd0ff;margin:4px 6px 0 0}
+    .lead-list{margin:6px 0 0 18px;color:#b8c0e0;line-height:1.7}
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <header class="modules-hero">
+      <h1 class="modules-title">Module 1: <span>NLP (Intro)</span></h1>
+      <p class="modules-sub">
+        Start here: What NLP is, where it’s used, and the core building blocks (tokens, corpora, stopwords, lemmas, stemming, vocabulary) with hands‑on mini‑labs.
+      </p>
+    </header>
+
+    <main class="lesson-wrap">
+
+      <!-- ===================== 0) WHAT IS NLP ===================== -->
+      <section class="term" id="sec-what-is-nlp">
+        <h2>What is NLP?</h2>
+        <div class="twocol">
+          <div>
+            <p class="t-desc">
+              <strong>Natural Language Processing (NLP)</strong> is how computers work with human language—reading it,
+              understanding it, generating it, and using it to make decisions. At its simplest, NLP turns text into
+              numbers (features/embeddings) so algorithms can learn patterns.
+            </p>
+
+            <div class="diagram">
+              <div class="d-caption">Why NLP matters</div>
+              <ul class="lead-list">
+                <li><strong>Search & Q/A:</strong> find answers, not just keywords.</li>
+                <li><strong>Assistants & chat:</strong> automate support, summarize conversations.</li>
+                <li><strong>Safety & moderation:</strong> filter spam, toxicity, PII.</li>
+                <li><strong>Business insights:</strong> analyze feedback, reviews, support tickets.</li>
+                <li><strong>Productivity:</strong> draft, rephrase, translate, summarize.</li>
+              </ul>
+            </div>
+
+            <div class="infobox">
+              <strong>Key idea:</strong> Most NLP pipelines follow a similar shape:
+              <em>text → tokens → (clean/normalize) → features/embeddings → model → task output</em>.
+            </div>
+          </div>
+          <div>
+            <div class="diagram">
+              <div class="d-caption">Common tasks</div>
+              <div class="pill-row">
+                <span class="pill">classification</span>
+                <span class="pill">sentiment</span>
+                <span class="pill">NER</span>
+                <span class="pill">POS</span>
+                <span class="pill">translation</span>
+                <span class="pill">summarization</span>
+                <span class="pill">question‑answering</span>
+                <span class="pill">semantic search</span>
+              </div>
+            </div>
+            <div class="diagram">
+              <div class="d-caption">You’ll learn</div>
+              <span class="badge-mini">Tokenization</span>
+              <span class="badge-mini">Corpora</span>
+              <span class="badge-mini">Stopwords</span>
+              <span class="badge-mini">Lemmas</span>
+              <span class="badge-mini">Stemming</span>
+              <span class="badge-mini">Vocabulary</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== 1) TOKEN ===================== -->
+      <section class="term" id="sec-token">
+        <h2>Token</h2>
+        <div class="twocol">
+          <div>
+            <p class="t-desc">
+              A <strong>token</strong> is the smallest piece of text we operate on. Most pipelines use words as tokens,
+              but punctuation and even sub‑word pieces can be tokens too. How you tokenize changes counts,
+              features, and model behavior.
+            </p>
+
+            <div class="diagram">
+              <div class="d-caption">Tokenization concept</div>
+              <svg viewBox="0 0 720 110" class="svg" aria-label="tokenization-diagram">
+                <rect x="10" y="20" width="700" height="70" rx="12" style="fill:rgba(12,14,22,.6);stroke:#2b3449"></rect>
+                <text x="20" y="60" style="fill:#aeb9df;font-size:16px">"NLP makes computers understand language."</text>
+                <g transform="translate(20,80)">
+                  <rect x="0" y="0" width="60" height="26" rx="8" style="fill:rgba(124,58,237,.12);stroke:rgba(124,58,237,.3)"></rect><text x="12" y="18" style="fill:#e5e8ff;font-size:13px">NLP</text>
+                  <rect x="70" y="0" width="78" height="26" rx="8" style="fill:rgba(124,58,237,.12);stroke:rgba(124,58,237,.3)"></rect><text x="82" y="18" style="fill:#e5e8ff;font-size:13px">makes</text>
+                  <rect x="158" y="0" width="118" height="26" rx="8" style="fill:rgba(124,58,237,.12);stroke:rgba(124,58,237,.3)"></rect><text x="170" y="18" style="fill:#e5e8ff;font-size:13px">computers</text>
+                  <rect x="286" y="0" width="118" height="26" rx="8" style="fill:rgba(124,58,237,.12);stroke:rgba(124,58,237,.3)"></rect><text x="298" y="18" style="fill:#e5e8ff;font-size:13px">understand</text>
+                  <rect x="414" y="0" width="110" height="26" rx="8" style="fill:rgba(124,58,237,.12);stroke:rgba(124,58,237,.3)"></rect><text x="426" y="18" style="fill:#e5e8ff;font-size:13px">language</text>
+                  <rect x="534" y="0" width="18" height="26" rx="8" style="fill:rgba(124,58,237,.12);stroke:rgba(124,58,237,.3)"></rect><text x="540" y="18" style="fill:#e5e8ff;font-size:13px">.</text>
+                </g>
+              </svg>
+            </div>
+
+            <div class="infobox">
+              <strong>Three common tokenizers.</strong>
+              <ul class="lead-list">
+                <li><b>Whitespace</b>: split on spaces. Simple, fast, but punctuation sticks to words.</li>
+                <li><b>Rule‑based</b>: remove punctuation & lowercase (good default for classic NLP).</li>
+                <li><b>Sub‑word</b> (demo): long words split into pieces; reduces unknown words.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <label class="lbl">Try it yourself</label>
+            <textarea id="txt" class="txt" rows="5">NLP makes computers understand language. Tokenization turns sentences into tokens!</textarea>
+
+            <div class="controls">
+              <label><input type="checkbox" id="rmStop"> Remove stopwords</label>
+              <label><input type="checkbox" id="stem"> Apply simple stemming</label>
+              <label><input type="checkbox" id="lemma"> Show lemma hints</label>
+              <label>
+                Tokenizer:
+                <select id="tokKind">
+                  <option value="ws" selected>Whitespace</option>
+                  <option value="rule">Rule-based</option>
+                  <option value="sub">Sub-word (demo)</option>
+                </select>
+              </label>
+              <button class="btn primary" id="run" type="button">Process</button>
+            </div>
+
+            <div class="pill-row wrap" id="tokens"></div>
+
+            <div class="diagram">
+              <div class="d-caption">Token Frequency (Top 12)</div>
+              <canvas id="chart" class="chart" width="900" height="260" aria-label="token-frequency"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== 2) CORPUS ===================== -->
+      <section class="term" id="sec-corpus">
+        <h2>Corpus</h2>
+        <div class="twocol">
+          <div>
+            <p class="t-desc">
+              A <strong>corpus</strong> is a collection of documents used to teach and evaluate models—
+              your model’s “training diet.” What you feed it is what it learns (news, reviews, medical notes, code, etc.).
+            </p>
+
+            <div class="diagram">
+              <div class="d-caption">Corpus → Documents → Sentences</div>
+              <div class="pill-row"><span class="pill">doc_001</span><span class="pill">doc_002</span><span class="pill">doc_003</span></div>
+              <ul class="lead-list">
+                <li><b>Balance</b>: keep classes/topics roughly even to avoid bias.</li>
+                <li><b>Coverage</b>: reflect production language (domain, register, length).</li>
+                <li><b>Splits</b>: train/validation/test ensure honest evaluation.</li>
+              </ul>
+            </div>
+
+            <div class="infobox">
+              <strong>Quality checks:</strong> deduplicate near‑identical items, scrub PII, log simple stats
+              (vocab size, OOV rate, label distribution) before training.
+            </div>
+          </div>
+
+          <div>
+            <div class="diagram">
+              <div class="d-caption">Common pitfalls</div>
+              <ul class="lead-list">
+                <li><b>Leakage</b>: test data sneaks into training (e.g., identical Q/A pairs).</li>
+                <li><b>Domain shift</b>: trained on tweets, deployed on legal docs → performance drops.</li>
+                <li><b>Imbalance</b>: dominant class hides errors (accuracy looks high).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== 3) STOPWORDS (interactive) ===================== -->
+      <section class="term" id="sec-stopwords">
+        <h2>Stopwords</h2>
+        <div class="twocol">
+          <div>
+            <p class="t-desc">
+              <strong>Stopwords</strong> are common function words like “the”, “is”, or “to”.
+              Classic bag‑of‑words often removes them to focus on content words, but for tasks like sentiment
+              (“not good”) or translation they matter. Choose based on task, not habit.
+            </p>
+            <table class="table">
+              <thead><tr><th>Scenario</th><th>Keep?</th><th>Why</th></tr></thead>
+              <tbody>
+                <tr><td>Sentiment with negation</td><td>Yes</td><td>Negation flips polarity</td></tr>
+                <tr><td>NER / Translation</td><td>Yes</td><td>Function words help boundaries & syntax</td></tr>
+                <tr><td>Topic modelling (long docs)</td><td>Often No</td><td>Focus on content words</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div>
+            <div class="diagram">
+              <div class="d-caption">Highlight stopwords in your sentence</div>
+              <textarea id="swText" class="txt" rows="3">The user did not like the movie because it was too slow.</textarea>
+              <div class="controls">
+                <button class="btn primary" id="btnSW" type="button">Highlight</button>
+              </div>
+              <div class="grid-3">
+                <div>
+                  <div class="d-caption">Stopwords</div>
+                  <div id="swStop" class="pill-row"></div>
+                </div>
+                <div>
+                  <div class="d-caption">Content words</div>
+                  <div id="swContent" class="pill-row"></div>
+                </div>
+                <div>
+                  <div class="d-caption">Hint</div>
+                  <p class="t-desc" style="margin:0">Start with a standard list (NLTK/spaCy), then customize:
+                    keep negations, add domain function words, remove noisy boilerplate.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== 4) LEMMA ===================== -->
+      <section class="term" id="sec-lemma">
+        <h2>Lemma</h2>
+        <div class="twocol">
+          <div>
+            <p class="t-desc">
+              A <strong>lemma</strong> is the dictionary form of a word. “Studies”, “studied”, and “studying” share the lemma
+              <strong>study</strong>. Lemmatization uses grammar & vocab, so outputs are valid words.
+            </p>
+
+            <div class="diagram">
+              <div class="d-caption">Word forms → lemma</div>
+              <div class="pill-row"><span class="pill">study</span><span class="pill">studies</span><span class="pill">studied</span><span class="pill">studying</span></div>
+            </div>
+
+            <div class="infobox">
+              <strong>Why it helps:</strong> reduces sparsity for classic ML; helps search/topic modelling and normalization.
+            </div>
+          </div>
+
+          <div>
+            <table class="table">
+              <thead><tr><th>Word</th><th>Lemma</th><th>Comment</th></tr></thead>
+              <tbody>
+                <tr><td>better</td><td>good</td><td>Irregular adjective (comparative)</td></tr>
+                <tr><td>went</td><td>go</td><td>Irregular verb (past)</td></tr>
+                <tr><td>studies</td><td>study</td><td>Rule‑based (plural/3rd‑person)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== 5) STEMMING ===================== -->
+      <section class="term" id="sec-stemming">
+        <h2>Stemming</h2>
+        <div class="twocol">
+          <div>
+            <p class="t-desc">
+              <strong>Stemming</strong> removes suffixes by rules (e.g., Porter). It’s fast, but stems may not be real words:
+              <em>“studying” → “studi”</em>. Use when speed matters and small errors won’t hurt.
+            </p>
+
+            <div class="diagram">
+              <div class="d-caption">Stemming vs. Lemmatization</div>
+              <div class="pill-row">
+                <span class="pill">studying → <strong>studi</strong> (stem)</span>
+                <span class="pill">studying → <strong>study</strong> (lemma)</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <table class="table">
+              <thead><tr><th>Use</th><th>When OK</th><th>Watch out</th></tr></thead>
+              <tbody>
+                <tr><td>Search/index</td><td>Recall > precision</td><td>Different words may collapse</td></tr>
+                <tr><td>Low‑resource devices</td><td>Need speed & tiny models</td><td>Results aren’t real words</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== 6) VOCABULARY ===================== -->
+      <section class="term" id="sec-vocab">
+        <h2>Vocabulary</h2>
+        <div class="twocol">
+          <div>
+            <p class="t-desc">
+              A model’s <strong>vocabulary</strong> is the set of tokens (or sub‑word pieces) it knows.
+              Bigger vocabularies reduce unknown words; smaller ones are faster and rely more on sub‑words.
+            </p>
+
+            <div class="diagram">
+              <div class="d-caption">Example vocabulary</div>
+              <div class="pill-row wrap">
+                <span class="pill">nlp</span><span class="pill">makes</span><span class="pill">computers</span>
+                <span class="pill">understand</span><span class="pill">language</span><span class="pill">##ing</span>
+              </div>
+            </div>
+
+            <div class="infobox">
+              <strong>Beginner tip:</strong> with BPE/WordPiece, you don’t manually pick words — the training algorithm
+              builds common pieces (like <em>##ing</em>) from your corpus.
+            </div>
+          </div>
+
+          <div>
+            <div class="diagram">
+              <div class="d-caption">Choosing a size (intuition)</div>
+              <ul class="lead-list">
+                <li>Classic bag‑of‑words: a few thousand most‑frequent words often work well.</li>
+                <li>Transformers: vocab fixed by the tokenizer (e.g., ~30k pieces).</li>
+                <li>Domain‑specific (medical/legal) → train tokenizer on domain data.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== 7) MINI‑LAB: PIPELINE ===================== -->
+      <section class="term" id="sec-mini-pipeline">
+        <h2>Mini‑lab: Your first tiny pipeline</h2>
+        <p class="t-desc">Type a sentence. We’ll show <strong>tokens</strong>, a simple <strong>stem</strong>, and a toy <strong>lemma hint</strong>.</p>
+        <div class="diagram">
+          <textarea id="pipeText" class="txt" rows="3">I loved studying languages, but sometimes the tools were confusing.</textarea>
+          <div class="controls">
+            <button class="btn primary" id="btnPipe" type="button">Process sentence</button>
+          </div>
+          <div class="grid-3">
+            <div>
+              <div class="d-caption">Tokens</div>
+              <div id="pipeTok" class="pill-row"></div>
+            </div>
+            <div>
+              <div class="d-caption">Stems (demo)</div>
+              <div id="pipeStem" class="pill-row"></div>
+            </div>
+            <div>
+              <div class="d-caption">Lemma hints (toy)</div>
+              <div id="pipeLemma" class="pill-row"></div>
+            </div>
+          </div>
+        </div>
+        <div class="infobox">
+          <strong>Heads‑up:</strong> These labs are intentionally simple for learning. In real projects, use
+          spaCy/NLTK/transformers to get high‑quality tokenization, lemmatization, POS/NER, and embeddings.
+        </div>
+      </section>
+
+      <!-- ===================== QUIZ ===================== -->
+      <section class="quiz" id="sec-quiz">
+        <h2>Check Yourself (10 Questions)</h2>
+
+        {% set q = [
+          ("What is NLP? Name two common applications.",
+           "Computers processing human language. Examples: search/Q&A, chat support, summarization, moderation."),
+          ("What is a token? Give two tokenization choices.",
+           "A minimal unit of text. Choices include word vs. sub‑word tokens; punctuation as separate tokens or merged."),
+          ("Difference between corpus and document?",
+           "Corpus = collection of documents; document = one item in the collection."),
+          ("When can removing stopwords be harmful?",
+           "Tasks where function words/negation matter: NER, translation, sentiment."),
+          ("Define lemma with examples.",
+           "Dictionary form of a word: studies → study; running → run."),
+          ("Stemming vs. lemmatization?",
+           "Stemming is heuristic chopping; lemmatization uses vocab/grammar for correct base forms."),
+          ("Why track vocabulary and OOV?",
+           "They affect coverage and performance; high OOV hints at domain mismatch."),
+          ("What are train/valid/test splits for?",
+           "Hyperparameter tuning and unbiased performance estimation."),
+          ("Why use sub‑word tokenization?",
+           "To handle rare/unknown words by splitting into pieces."),
+          ("Give one tokenizer decision that changes counts.",
+           "Lowercasing, stripping punctuation, splitting on hyphens.")
+        ] %}
+        {% for i in range(q|length) %}
+        <details class="qa">
+          <summary><span class="qnum">{{ i+1 }}.</span> {{ q[i][0] }}</summary>
+          <div class="answer">{{ q[i][1] }}</div>
+        </details>
+        {% endfor %}
+      </section>
+
+      <!-- Button to open a NEW PAGE for setup (no dropdown) -->
+      <div style="text-align:center; margin:18px 0;">
+        <a class="btn primary" href="{{ url_for('setup_python_nlp') }}">Setting up Python for NLP</a>
+      </div>
+
+      <!-- Learn More -->
+      <section class="more">
+        <h2>Learn More</h2>
+        <ul class="links">
+          <li><a href="https://www.youtube.com/watch?v=fOvTtapxa9c" target="_blank" rel="noopener">What is NLP? (IBM Technology)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=Odc3lQZP2t8" target="_blank" rel="noopener">Stemming vs Lemmatization (Explainer)</a></li>
+        </ul>
+        <p class="note">Inspired by Jurafsky &amp; Martin’s <em>Speech and Language Processing</em>, paraphrased for teaching.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ====== Interactivity (no external libs) ====== -->
+  <script>
+    // Minimal stopword list (demo)
+    const STOP = new Set(["the","a","an","is","are","am","and","or","to","of","in","on","for","with","it","its","this","that","as","into","by","was","too","not","because","did"]);
+
+    // naive "stemmer" (demo only)
+    const stemmer = w => {
+      let x = w;
+      if (x.endsWith("ing") && x.length > 5) x = x.slice(0, -3);
+      else if (x.endsWith("ed") && x.length > 4) x = x.slice(0, -2);
+      else if (x.endsWith("s") && x.length > 3) x = x.slice(0, -1);
+      return x;
+    };
+
+    // naive lemma hints (demo)
+    const lemmaHint = w => {
+      const rules = [["studies","study"],["studying","study"],["studied","study"],["better","good"],["went","go"],["loved","love"],["languages","language"]];
+      for (const [k,v] of rules) if (w === k) return v;
+      return null;
+    };
+
+    // tokenizers
+    const tokWhitespace = txt => txt.trim().split(/\s+/).filter(Boolean);
+    const tokRule = txt => txt.toLowerCase().split(/[^a-z0-9#]+/g).filter(Boolean);
+    const tokSubwordDemo = txt => {
+      const base = tokRule(txt);
+      const out = [];
+      for (const t of base){
+        if (t.length > 7){
+          out.push(t.slice(0, t.length-4));
+          out.push("##" + t.slice(t.length-4));
+        } else out.push(t);
+      }
+      return out;
+    };
+
+    const $ = id => document.getElementById(id);
+
+    // Draw bar chart for token frequency
+    const drawFreq = (freq) => {
+      const canvas = $("chart");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      const entries = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,12);
+      const maxv = entries.reduce((m, [,v]) => Math.max(m, v), 1);
+      const W = canvas.width - 80, H = canvas.height - 60, x0 = 60, y0 = 30;
+
+      ctx.font = "14px Inter, system-ui";
+      entries.forEach(([t,c], i) => {
+        const bw = W / entries.length * 0.7;
+        const gap = W / entries.length * 0.3;
+        const x = x0 + i * (bw + gap);
+        const h = (c / maxv) * (H - 30);
+        const y = y0 + (H - h);
+        ctx.fillStyle = "rgba(124,58,237,0.6)";
+        ctx.fillRect(x, y, bw, h);
+        ctx.fillStyle = "#cfd2ff";
+        ctx.fillText(t, x, y0 + H + 18);
+        ctx.fillText(String(c), x, y - 6);
+      });
+    };
+
+    // TOKEN section
+    const processTokens = () => {
+      const text = $("txt").value;
+      const removeStop = $("rmStop").checked;
+      const doStem = $("stem").checked;
+      const showLemma = $("lemma").checked;
+      const kind = $("tokKind").value;
+
+      let toks;
+      if (kind === "ws") toks = tokWhitespace(text);
+      else if (kind === "rule") toks = tokRule(text);
+      else toks = tokSubwordDemo(text);
+
+      toks = toks.map(t => t.toLowerCase());
+      if (removeStop) toks = toks.filter(t => !STOP.has(t));
+      if (doStem) toks = toks.map(stemmer);
+
+      const wrap = $("tokens");
+      wrap.innerHTML = "";
+      toks.forEach(t => {
+        const span = document.createElement("span");
+        span.className = "pill";
+        const lem = showLemma ? lemmaHint(t) : null;
+        span.innerHTML = lem ? `${t} <span class="hint">→ ${lem}</span>` : t;
+        wrap.appendChild(span);
+      });
+
+      const freq = {};
+      toks.forEach(t => freq[t] = (freq[t]||0)+1);
+      drawFreq(freq);
+    };
+
+    // STOPWORDS highlighter
+    const highlightSW = () => {
+      const txt = $("swText").value;
+      const base = tokRule(txt);
+      const stop = [], content = [];
+      base.forEach(t => (STOP.has(t) ? stop : content).push(t));
+
+      const paint = (arr, el, muted=false) => {
+        el.innerHTML = "";
+        arr.forEach(t => {
+          const s = document.createElement("span");
+          s.className = "pill" + (muted ? " muted" : "");
+          s.textContent = t;
+          el.appendChild(s);
+        });
+      };
+      paint(stop, $("swStop"), true);
+      paint(content, $("swContent"));
+    };
+
+    // MINI PIPELINE
+    const runMini = () => {
+      const txt = $("pipeText").value;
+      const toks = tokRule(txt);
+
+      const stems = toks.map(stemmer);
+      const lemmas = toks.map(t => lemmaHint(t) || t);
+
+      const paint = (arr, elId) => {
+        const el = $(elId);
+        el.innerHTML = "";
+        arr.forEach(t => {
+          const s = document.createElement("span");
+          s.className = "pill";
+          s.textContent = t;
+          el.appendChild(s);
+        });
+      };
+      paint(toks, "pipeTok");
+      paint(stems, "pipeStem");
+      paint(lemmas, "pipeLemma");
+    };
+
+    // Wire up events
+    $("run").addEventListener("click", processTokens);
+    $("btnSW").addEventListener("click", highlightSW);
+    $("btnPipe").addEventListener("click", runMini);
+
+    // initial renders
+    window.addEventListener("load", () => {
+      processTokens();
+      highlightSW();
+      runMini();
+    });
+  </script>
+</body>
+</html>

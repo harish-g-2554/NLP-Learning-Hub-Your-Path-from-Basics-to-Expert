@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Module 9 — Application Using Dense Vector</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<head>
+  <!-- ... your other head elements ... -->
+  <style>
+    .page-nav {
+      padding: 12px 24px;
+      background: rgba(17, 18, 28, 0.4);
+      border-bottom: 1px solid #273041;
+      margin-bottom: 24px;
+    }
+    .page-nav a {
+      color: #cbd5ff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .page-nav a:hover {
+      text-decoration: underline;
+    }
+    /* ... rest of your styles ... */
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <header class="page-nav">
+      <a href="{{ url_for('modules') }}">&larr; Back to All Modules</a>
+    </header>
+  <style>
+    .lesson-wrap{max-width:1200px;margin:0 auto;padding:8px 16px 96px}
+    .modules-hero{max-width:960px;margin:0 auto 18px;text-align:center}
+    .modules-title{font-size:clamp(1.8rem,4.8vw,3rem);margin:8px 0 6px}
+    .modules-hero p{color:#9fb0d8}
+
+    .term{margin:18px 0;padding:22px;border-radius:16px;background:linear-gradient(180deg,rgba(17,18,28,.75),rgba(17,18,28,.45));border:1px solid #273041;box-shadow:0 10px 30px #0003,0 0 0 1px #1f2333 inset}
+    .term h2, .term h3 {margin:0 0 8px;color:#e6e8ff}
+    .t-desc{color:#9aa6d1; line-height: 1.6;}
+    .twocol{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:10px}
+    @media (max-width:900px){.twocol{grid-template-columns:1fr}}
+
+    .diagram{padding:12px;border:1px solid #2b3449;border-radius:12px;background:rgba(12,14,22,.45);margin:10px 0}
+    .d-caption{font-size:.82rem;color:#91a0c7;margin-bottom:6px;font-weight:700}
+    .txt{width:100%;border-radius:12px;border:1px solid #2b3449;background:#0f1220;color:#e8ebff;padding:10px}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    .infobox{background:linear-gradient(180deg,rgba(6,182,212,.08),rgba(124,58,237,.08));border:1px solid #334155;border-radius:12px;padding:10px 12px;color:#bdd3f4}
+    
+    .table{width:100%;border-collapse:separate;border-spacing:0 6px}
+    .table th,.table td{padding:10px 12px;vertical-align:top; text-align: left;}
+    .table thead th{color:#cbd5ff;text-align:left;border-bottom:1px solid #2b3449}
+    .table tbody tr{background:rgba(12,14,22,.55);border:1px solid #2b3449}
+
+    .qa{ margin:8px 0; background:rgba(17,18,28,.6); border:1px solid #273041; border-radius:10px; padding:10px 12px; }
+    .qa summary{ cursor:pointer; color:#d7dcff; font-weight:700; }
+    .qa .answer{ margin-top:8px; color:#b8c0e0; } 
+    .qnum{ color:#a78bfa; margin-right:6px; }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <header class="modules-hero">
+      <h1 class="modules-title">Module 9: <span>Application Using Dense Vector</span></h1>
+      <p class="modules-sub">Create sophisticated NLP applications leveraging dense embeddings for semantic understanding.</p>
+    </header>
+
+    <main class="lesson-wrap">
+
+      <section class="term" id="intro">
+        <h2>Beyond Keywords: The Power of Semantic Understanding</h2>
+        <p class="t-desc">
+          Dense vectors (embeddings) unlock a new level of sophistication for NLP applications. Because they capture the *meaning* of words and sentences, we can build systems that go beyond simple keyword matching. This is the realm of <strong>semantic applications</strong>. We'll explore one of the most powerful applications: <strong>Semantic Search</strong>.
+        </p>
+      </section>
+
+      <section class="term" id="semantic-search">
+        <h2>Semantic Search</h2>
+        <p class="t-desc">
+          Traditional search, based on TF-IDF, is excellent at finding documents with the exact words you've typed. But what if the user searches for "best places to eat" and your document says "top restaurants"? A traditional search might miss this. <strong>Semantic Search</strong> bridges this gap by searching based on meaning, not just keywords.
+        </p>
+        <h3>How it works with dense vectors:</h3>
+        <ol>
+          <li><strong>Create Document Embeddings:</strong> You take a powerful, pre-trained language model (like a simplified version of BERT) and use it to convert your entire collection of documents into dense vectors. Each vector represents the meaning of a document.</li>
+          <li><strong>Create a Query Embedding:</strong> When a user types a query, you use the *same* model to convert their query into a dense vector.</li>
+          <li><strong>Find Similar Vectors:</strong> You then use Cosine Similarity to find the document vectors that are closest to the query vector. The documents with the highest similarity scores are the most semantically relevant results.</li>
+        </ol>
+        <div class="infobox">
+          <strong>Key Advantage:</strong> This approach finds documents that are conceptually related to the query, even if they don't share any of the same keywords.
+        </div>
+      </section>
+      
+      <section class="term" id="lab-semantic-search">
+        <h2>Interactive Semantic Search Lab</h2>
+        <p class="t-desc">Provide a small collection of documents (one per line), or upload a .txt file. Then, enter a search query to find the most semantically similar documents.</p>
+        <div class="diagram">
+            <div class="d-caption">Simple Semantic Search</div>
+            <div class="twocol">
+                <div>
+                    <label for="corpus" class="lbl">1. Document Collection</label>
+                    <textarea id="corpus" class="txt" rows="6">The team achieved a great victory in the final match.
+A new smartphone with an advanced camera was unveiled.
+The chef prepared a delicious meal at the restaurant.
+The company's stock price reached a new high after the announcement.
+The latest software update includes several new features.
+The best Italian food can be found in that little cafe.</textarea>
+                </div>
+                <div>
+                    <label for="fileInput" class="lbl">Or Upload a .txt File</label>
+                    <input type="file" id="fileInput" accept=".txt" class="txt">
+                    <label for="query" class="lbl" style="margin-top:1rem;">2. Search Query</label>
+                    <input type="text" id="query" class="txt mono" value="where can I find good food?">
+                </div>
+            </div>
+            <div style="margin-top:10px">
+                <button class="btn primary" id="btnSearch" type="button">Search</button>
+            </div>
+        </div>
+        <div id="results" style="display:none;" class="diagram">
+            <h3>Search Results (Ranked by Similarity)</h3>
+            <div id="search-results-table"></div>
+        </div>
+      </section>
+      
+      <section class="term">
+        <h2>Quick Quiz</h2>
+        <details class="qa"><summary><span class="qnum">1.</span> What is the main difference between semantic search and traditional keyword search?</summary><div class="answer">Semantic search finds results based on meaning and context, while keyword search primarily matches the exact words in the query.</div></details>
+        <details class="qa"><summary><span class="qnum">2.</span> Why is cosine similarity used to compare document and query embeddings?</summary><div class="answer">It measures the similarity in the "direction" (i.e., the meaning) of the vectors, regardless of their magnitude or the length of the text.</div></details>
+        <details class="qa"><summary><span class="qnum">3.</span> What is "transfer learning" in the context of NLP?</summary><div class="answer">It's the practice of using a large, pre-trained model (like BERT, trained on a massive amount of text) and fine-tuning it for a specific task. This is much more efficient than training a model from scratch.</div></details>
+        <details class="qa"><summary><span class="qnum">4.</span> What is a "vector database"?</summary><div class="answer">A specialized database designed to efficiently store and search through a large number of high-dimensional vectors, which is essential for large-scale semantic search.</div></details>
+        <details class="qa"><summary><span class="qnum">5.</span> What is "zero-shot learning"?</summary><div class="answer">A model's ability to perform a task it wasn't explicitly trained on. For example, a text classification model trained on "sports" and "tech" might be able to correctly classify a document about "health" if it has learned a general understanding of language.</div></details>
+        <details class="qa"><summary><span class="qnum">6.</span> How can dense embeddings be used for recommendation systems?</summary><div class="answer">You can create embeddings for users and items (like movies or products). A user's recommendation would then be the items whose embeddings are most similar to their own.</div></details>
+        <details class="qa"><summary><span class="qnum">7.</span> Why is it important to use the same model for embedding both the documents and the query?</summary><div class="answer">Because the vectors are only comparable if they are in the same "vector space". Using different models would be like comparing a point on a map of London to a point on a map of New York.</div></details>
+        <details class="qa"><summary><span class="qnum">8.</span> What is a "bi-encoder" architecture in semantic search?</summary><div class="answer">It's an architecture where the query and the documents are encoded into vectors independently, which is very fast for searching.</div></details>
+        <details class="qa"><summary><span class="qnum">9.</span> What is a "cross-encoder"?</summary><div class="answer">A more accurate but slower architecture where the query and a document are passed into the model together to get a similarity score. It's often used to re-rank the top results from a bi-encoder.</div></details>
+        <details class="qa"><summary><span class="qnum">10.</span> What does RAG stand for in the context of NLP applications?</summary><div class="answer">Retrieval-Augmented Generation. It's a technique where you first use semantic search to retrieve relevant documents and then feed those documents to a language model (like GPT) to generate a more informed and accurate answer.</div></details>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    async function postJSON(url, payload) {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+        throw new Error(errData.error);
+      }
+      return res.json();
+    }
+
+    document.getElementById('fileInput').addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('corpus').value = e.target.result;
+            };
+            reader.readAsText(file);
+        }
+    });
+
+    document.getElementById('btnSearch').addEventListener('click', async () => {
+        const corpus = document.getElementById('corpus').value;
+        const query = document.getElementById('query').value;
+
+        if (!corpus || !query) {
+            alert('Please provide a document collection and a search query.');
+            return;
+        }
+        try {
+            const data = await postJSON('/api/dense-vectors/search', { corpus, query });
+            
+            let tableHtml = '<table class="table"><thead><tr><th>Document</th><th>Similarity Score</th></tr></thead><tbody>';
+            data.results.forEach(item => {
+                tableHtml += `<tr><td>${item.doc}</td><td>${item.score.toFixed(4)}</td></tr>`;
+            });
+            tableHtml += '</tbody></table>';
+            document.getElementById('search-results-table').innerHTML = tableHtml;
+
+            document.getElementById('results').style.display = 'block';
+        } catch (e) {
+            alert(`Error: ${e.message}`);
+        }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Module 8 — Application Using Sparse Vector</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<head>
+  <!-- ... your other head elements ... -->
+  <style>
+    .page-nav {
+      padding: 12px 24px;
+      background: rgba(17, 18, 28, 0.4);
+      border-bottom: 1px solid #273041;
+      margin-bottom: 24px;
+    }
+    .page-nav a {
+      color: #cbd5ff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .page-nav a:hover {
+      text-decoration: underline;
+    }
+    /* ... rest of your styles ... */
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <header class="page-nav">
+      <a href="{{ url_for('modules') }}">&larr; Back to All Modules</a>
+    </header>
+  <style>
+    .lesson-wrap{max-width:1200px;margin:0 auto;padding:8px 16px 96px}
+    .modules-hero{max-width:960px;margin:0 auto 18px;text-align:center}
+    .modules-title{font-size:clamp(1.8rem,4.8vw,3rem);margin:8px 0 6px}
+    .modules-hero p{color:#9fb0d8}
+
+    .term{margin:18px 0;padding:22px;border-radius:16px;background:linear-gradient(180deg,rgba(17,18,28,.75),rgba(17,18,28,.45));border:1px solid #273041;box-shadow:0 10px 30px #0003,0 0 0 1px #1f2333 inset}
+    .term h2, .term h3 {margin:0 0 8px;color:#e6e8ff}
+    .t-desc{color:#9aa6d1; line-height: 1.6;}
+    .twocol{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:10px}
+    @media (max-width:900px){.twocol{grid-template-columns:1fr}}
+
+    .diagram{padding:12px;border:1px solid #2b3449;border-radius:12px;background:rgba(12,14,22,.45);margin:10px 0}
+    .d-caption{font-size:.82rem;color:#91a0c7;margin-bottom:6px;font-weight:700}
+    .txt{width:100%;border-radius:12px;border:1px solid #2b3449;background:#0f1220;color:#e8ebff;padding:10px}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    .infobox{background:linear-gradient(180deg,rgba(6,182,212,.08),rgba(124,58,237,.08));border:1px solid #334155;border-radius:12px;padding:10px 12px;color:#bdd3f4}
+    
+    .qa{ margin:8px 0; background:rgba(17,18,28,.6); border:1px solid #273041; border-radius:10px; padding:10px 12px; }
+    .qa summary{ cursor:pointer; color:#d7dcff; font-weight:700; }
+    .qa .answer{ margin-top:8px; color:#b8c0e0; } 
+    .qnum{ color:#a78bfa; margin-right:6px; }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <header class="modules-hero">
+      <h1 class="modules-title">Module 8: <span>Application Using Sparse Vector</span></h1>
+      <p class="modules-sub">Build real-world text applications using sparse vector representations for text classification and analysis.</p>
+    </header>
+
+    <main class="lesson-wrap">
+
+      <section class="term" id="intro">
+        <h2>Putting Theory into Practice</h2>
+        <p class="t-desc">
+          Now that we understand sparse vectors like Bag-of-Words and TF-IDF, let's explore how they power real-world applications. These simple representations are surprisingly effective and often serve as strong baselines for more complex models. We'll focus on two key applications: <strong>Text Classification</strong> and <strong>Document Retrieval</strong>.
+        </p>
+      </section>
+
+      <section class="term" id="text-classification">
+        <h2>Text Classification</h2>
+        <p class="t-desc">
+          <strong>Text Classification</strong> is the task of assigning a category or label to a piece of text. It's one of the most common tasks in NLP.
+        </p>
+        <h3>How it works with sparse vectors:</h3>
+        <ol>
+          <li><strong>Prepare the Data:</strong> You start with a collection of documents that are already labeled (e.g., emails labeled as "spam" or "not spam").</li>
+          <li><strong>Create Vectors:</strong> You convert each document into a TF-IDF vector. This turns your text into a numerical dataset.</li>
+          <li><strong>Train a Model:</strong> You feed these vectors and their corresponding labels into a classic machine learning classifier (like Naive Bayes, Logistic Regression, or a Support Vector Machine). The model learns to associate certain word patterns with each label.</li>
+          <li><strong>Predict:</strong> To classify a new, unseen document, you convert it into a TF-IDF vector and ask the trained model to predict its label.</li>
+        </ol>
+        <div class="infobox">
+          <strong>Common Use Cases:</strong> Spam detection, sentiment analysis (positive/negative review), topic labeling (sports, politics, tech), and language detection.
+        </div>
+      </section>
+      
+      <section class="term" id="document-retrieval">
+        <h2>Document Retrieval (Search)</h2>
+        <p class="t-desc">
+          <strong>Document Retrieval</strong> is the core task of a search engine: finding a set of documents from a large collection that are relevant to a user's query.
+        </p>
+        <h3>How it works with sparse vectors:</h3>
+        <p class="t-desc">
+          The key idea is to represent both the documents and the query as TF-IDF vectors and then find the documents whose vectors are "closest" to the query vector. A common way to measure this closeness is with <strong>Cosine Similarity</strong>, which measures the angle between two vectors. A smaller angle means a higher cosine similarity and a better match.
+        </p>
+      </section>
+
+      <section class="term" id="lab-text-classification">
+        <h2>Interactive Text Classification Lab</h2>
+        <p class="t-desc">Provide labeled training data (one document per line, with the format `label,text`), or upload a .txt file. Then, enter a new sentence to see how the model classifies it.</p>
+        <div class="diagram">
+            <div class="d-caption">Simple Text Classifier</div>
+            <div class="twocol">
+                <div>
+                    <label for="trainingData" class="lbl">1. Training Data (label,text)</label>
+                    <textarea id="trainingData" class="txt" rows="6">sports,the team won the game
+sports,a great match with many goals
+tech,a new phone was released
+tech,the company announced a new cpu</textarea>
+                </div>
+                <div>
+                    <label for="fileInput" class="lbl">Or Upload a .txt File</label>
+                    <input type="file" id="fileInput" accept=".txt" class="txt">
+                    <label for="query" class="lbl" style="margin-top:1rem;">2. Text to Classify</label>
+                    <input type="text" id="query" class="txt mono" value="the phone has a great camera">
+                </div>
+            </div>
+            <div style="margin-top:10px">
+                <button class="btn primary" id="btnClassify" type="button">Train and Classify</button>
+            </div>
+        </div>
+        <div id="results" style="display:none;" class="diagram">
+            <h3>Classification Result</h3>
+            <p id="classification-result" class="t-desc"></p>
+        </div>
+      </section>
+      
+      <section class="term">
+        <h2>Quick Quiz</h2>
+        <details class="qa"><summary><span class="qnum">1.</span> What is the goal of text classification?</summary><div class="answer">To automatically assign a predefined category or label to a piece of text.</div></details>
+        <details class="qa"><summary><span class="qnum">2.</span> What is a "strong baseline" in machine learning?</summary><div class="answer">A simple but effective model (like TF-IDF with Logistic Regression) that new, more complex models must outperform to be considered successful.</div></details>
+        <details class="qa"><summary><span class="qnum">3.</span> In document retrieval, why is cosine similarity often preferred over Euclidean distance?</summary><div class="answer">Cosine similarity is not affected by the length of the documents. It only measures the orientation (angle) of the vectors, which is a better indicator of topic similarity.</div></details>
+        <details class="qa"><summary><span class="qnum">4.</span> What is "feature selection"?</summary><div class="answer">The process of selecting a subset of relevant features (in this case, words) to use in model construction, often to improve performance and reduce noise.</div></details>
+        <details class="qa"><summary><span class="qnum">5.</span> What is text clustering?</summary><div class="answer">An unsupervised learning task where you group similar documents together without having any predefined labels.</div></details>
+        <details class="qa"><summary><span class="qnum">6.</span> How would you represent a user's search query in a TF-IDF-based search system?</summary><div class="answer">You would convert the query into a TF-IDF vector using the same vocabulary and IDF weights as your document collection.</div></details>
+        <details class="qa"><summary><span class="qnum">7.</span> What is a Naive Bayes classifier?</summary><div class="answer">A simple probabilistic classifier based on applying Bayes' theorem with a "naive" assumption of conditional independence between the features (words).</div></details>
+        <details class="qa"><summary><span class="qnum">8.</span> What is "sentiment analysis"?</summary><div class="answer">A common text classification task where the goal is to determine the emotional tone behind a piece of text (e.g., positive, negative, neutral).</div></details>
+        <details class="qa"><summary><span class="qnum">9.</span> What is an "inverted index" and why is it useful for document retrieval?</summary><div class="answer">It's a data structure that maps words to the documents they appear in. It's extremely useful for quickly finding all documents that contain a query term.</div></details>
+        <details class="qa"><summary><span class="qnum">10.</span> What is one limitation of using sparse vectors for text classification?</summary><div class="answer">They don't understand the meaning or semantics of words. For example, the model wouldn't know that "car" and "automobile" are synonyms unless they appear with similar words in the training data.</div></details>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    async function postJSON(url, payload) {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+        throw new Error(errData.error);
+      }
+      return res.json();
+    }
+
+    document.getElementById('fileInput').addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('trainingData').value = e.target.result;
+            };
+            reader.readAsText(file);
+        }
+    });
+
+    document.getElementById('btnClassify').addEventListener('click', async () => {
+        const trainingData = document.getElementById('trainingData').value;
+        const query = document.getElementById('query').value;
+
+        if (!trainingData || !query) {
+            alert('Please provide training data and a query to classify.');
+            return;
+        }
+        try {
+            const data = await postJSON('/api/sparse-vectors/classify', { training_data: trainingData, query: query });
+            
+            document.getElementById('classification-result').innerText = `The model predicts the label: ${data.prediction}`;
+            document.getElementById('results').style.display = 'block';
+        } catch (e) {
+            alert(`Error: ${e.message}`);
+        }
+    });
+  </script>
+</body>
+</html>

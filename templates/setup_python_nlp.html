@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Setting up Python for NLP</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="scene">
+    <header class="modules-hero">
+      <h1 class="modules-title">Setting up Python for NLP</h1>
+      <p class="modules-sub">A beginner-friendly guide to installing Python, NLP libraries, and getting your environment ready for text processing.</p>
+    </header>
+
+    <main class="lesson-wrap">
+      <section class="term">
+        <h2>1. Prerequisites</h2>
+        <ul>
+          <li>Basic understanding of Python syntax</li>
+          <li>A computer running Windows, macOS, or Linux</li>
+          <li>Internet connection to download packages</li>
+        </ul>
+      </section>
+
+      <section class="term">
+        <h2>2. Install Python</h2>
+        <p>Download the latest version of Python (3.10 or newer) from <a href="https://www.python.org/downloads/" target="_blank">python.org</a>.</p>
+        <ol>
+          <li>Run the installer</li>
+          <li>Check the box <strong>Add Python to PATH</strong></li>
+          <li>Verify installation with:
+            <pre><code>python --version</code></pre>
+          </li>
+        </ol>
+      </section>
+
+      <section class="term">
+        <h2>3. Install pip (if not included)</h2>
+        <pre><code>python -m ensurepip --upgrade</code></pre>
+      </section>
+
+      <section class="term">
+        <h2>4. Create a Virtual Environment</h2>
+        <pre><code>python -m venv nlp_env
+source nlp_env/bin/activate  # macOS/Linux
+nlp_env\Scripts\activate     # Windows</code></pre>
+      </section>
+
+      <section class="term">
+        <h2>5. Install Essential NLP Libraries</h2>
+        <pre><code>pip install nltk spacy gensim scikit-learn pandas matplotlib</code></pre>
+        <p>Optional extras for deep learning NLP:</p>
+        <pre><code>pip install torch transformers</code></pre>
+      </section>
+
+      <section class="term">
+        <h2>6. Download NLP Resources</h2>
+        <p>For NLTK:</p>
+        <pre><code>import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')</code></pre>
+        <p>For spaCy (English model):</p>
+        <pre><code>python -m spacy download en_core_web_sm</code></pre>
+      </section>
+
+      <section class="term">
+        <h2>7. Test Your Setup</h2>
+        <pre><code>import nltk
+from nltk.tokenize import word_tokenize
+print(word_tokenize("NLP is fun!"))</code></pre>
+      </section>
+
+      <section class="term">
+        <h2>8. Recommended Tools</h2>
+        <ul>
+          <li><strong>Jupyter Notebook</strong> — interactive coding (<code>pip install notebook</code>)</li>
+          <li><strong>VS Code</strong> — for editing Python scripts</li>
+          <li><strong>Anaconda</strong> — alternative Python distribution with pre-installed packages</li>
+        </ul>
+      </section>
+
+      <section class="more">
+        <a href="{{ url_for('module_nlp') }}" class="btn secondary">← Back to NLP Module</a>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
